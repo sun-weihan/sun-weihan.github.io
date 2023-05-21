@@ -1,9 +1,8 @@
 ---
 title: 我的HomeServer搭建历程（持续更新）
 date: 2023-05-16 23:05:02
-categories:
- - 运维
 tags:
+ - 运维
  - HomeServer
 ---
 HomeServer，也被称为NAS、All-in-one等，是指家庭中的服务器环境，硬件多种多样，如树莓派、群晖、专用服务器、普通家用计算机等均可，通常运行群晖DSM、Unraid、FreeNAS等定制操作系统，也可选择Windows、Linux等通用操作系统，通过Docker、虚拟机等方式部署一系列自托管（Self-host）服务，如影音库、私人云盘、个人网站等等。<!-- more -->
