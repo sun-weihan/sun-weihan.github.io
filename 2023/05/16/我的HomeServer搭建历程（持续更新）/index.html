@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"sun-weihan.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.17.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="HomeServer，也被称为NAS、All-in-one等，是指家庭中的服务器环境，硬件多种多样，如树莓派、群晖、专用服务器、普通家用计算机等均可，通常运行群晖DSM、Unraid、FreeNAS等定制操作系统，也可选择Windows、Linux等通用操作系统，通过Docker、虚拟机等方式部署一系列自托管（Self-host）服务，如影音库、私人云盘、个人网站等等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的HomeServer搭建历程（持续更新）">
+<meta property="og:url" content="https://sun-weihan.github.io/2023/05/16/%E6%88%91%E7%9A%84HomeServer%E6%90%AD%E5%BB%BA%E5%8E%86%E7%A8%8B%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/index.html">
+<meta property="og:site_name" content="岁寒">
+<meta property="og:description" content="HomeServer，也被称为NAS、All-in-one等，是指家庭中的服务器环境，硬件多种多样，如树莓派、群晖、专用服务器、普通家用计算机等均可，通常运行群晖DSM、Unraid、FreeNAS等定制操作系统，也可选择Windows、Linux等通用操作系统，通过Docker、虚拟机等方式部署一系列自托管（Self-host）服务，如影音库、私人云盘、个人网站等等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-16T15:05:02.000Z">
+<meta property="article:modified_time" content="2023-06-09T15:42:29.486Z">
+<meta property="article:author" content="sunweihan">
+<meta property="article:tag" content="运维">
+<meta property="article:tag" content="HomeServer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://sun-weihan.github.io/2023/05/16/%E6%88%91%E7%9A%84HomeServer%E6%90%AD%E5%BB%BA%E5%8E%86%E7%A8%8B%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://sun-weihan.github.io/2023/05/16/%E6%88%91%E7%9A%84HomeServer%E6%90%AD%E5%BB%BA%E5%8E%86%E7%A8%8B%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/","path":"2023/05/16/我的HomeServer搭建历程（持续更新）/","title":"我的HomeServer搭建历程（持续更新）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>我的HomeServer搭建历程（持续更新） | 岁寒</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?eda16de348e9d3271ada4b1d0243e399"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">岁寒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">岁寒，然后知松柏之后凋也。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2020-%E8%87%B3%E4%BB%8A%EF%BC%9A%E8%87%AA%E7%BB%84%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">2020~至今：自组高性能服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2017-2019%EF%BC%9A%E8%87%AA%E7%BB%84%E4%BD%8E%E5%8A%9F%E8%80%97%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">2017~2019：自组低功耗服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2014-2017%EF%BC%9A%E8%B7%AF%E7%94%B1%E5%99%A8%E6%8C%82%E8%BD%BD%E7%A1%AC%E7%9B%98%E3%80%81%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E5%85%B1%E4%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">2014~2017：路由器挂载硬盘、笔记本电脑共享</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sunweihan</p>
+  <div class="site-description" itemprop="description">一只热爱生活的程序猿</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sun-weihan.github.io/2023/05/16/%E6%88%91%E7%9A%84HomeServer%E6%90%AD%E5%BB%BA%E5%8E%86%E7%A8%8B%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sunweihan">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="岁寒">
+      <meta itemprop="description" content="一只热爱生活的程序猿">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="我的HomeServer搭建历程（持续更新） | 岁寒">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我的HomeServer搭建历程（持续更新）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-16 23:05:02" itemprop="dateCreated datePublished" datetime="2023-05-16T23:05:02+08:00">2023-05-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-06-09 23:42:29" itemprop="dateModified" datetime="2023-06-09T23:42:29+08:00">2023-06-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>HomeServer，也被称为NAS、All-in-one等，是指家庭中的服务器环境，硬件多种多样，如树莓派、群晖、专用服务器、普通家用计算机等均可，通常运行群晖DSM、Unraid、FreeNAS等定制操作系统，也可选择Windows、Linux等通用操作系统，通过Docker、虚拟机等方式部署一系列自托管（Self-host）服务，如影音库、私人云盘、个人网站等等。<span id="more"></span></p>
+<p>我从2014年左右开始使用，至今已经六七年，期间软硬件环境也经历了多次迭代，写篇文章记录下迭代过程和做过的对比方案，记录生活的同时也给其他人做一些参考。如有变化本文章也会持续更新。</p>
+<h1 id="2020-至今：自组高性能服务器"><a href="#2020-至今：自组高性能服务器" class="headerlink" title="2020~至今：自组高性能服务器"></a>2020~至今：自组高性能服务器</h1><p>先上硬件配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CPU：i9-9900T ES</span><br><span class="line">主板：微星B360M Mortar</span><br><span class="line">内存：玖合 16G 2666Mhz</span><br><span class="line">电源：振华铜皇450W</span><br><span class="line">机箱：追风者416PTG</span><br><span class="line">CPU散热器：利民AS120</span><br></pre></td></tr></table></figure>
+
+<p>大家应该都看得出来，这都是一些普通台式PC的配件。没错，HomeServer与普通台式PC并没有本质上的区别，普通台式PC完全可以胜任。英特尔8代及之后的CPU在低负载的情况下，功耗相当低，7×24小时使用完全不用担心电费。</p>
+<p>而且，相对于专用硬件高额的溢价，这些普通货的价格亲民很多，能够省下不少预算。</p>
+<p>最后，说一下选择建议：</p>
+<ol>
+<li>首先如果你有闲置的硬件，只要它不是太过时，那可以直接复用。</li>
+<li>机箱：尽量选择盘位多的，我选择追风者416PTG原因有三：一是至多8个硬盘位；二是兼容性强，主板、CPU散热器、电源等可选多；三是我恰好有一个闲置的。但是也有缺点：硬盘位需要额外购买扩展组件；体积过于大了。</li>
+<li>主板：能不用ITX就不用ITX，一方面ITX太贵，溢价太高，另一方面内存插槽、SATA等接口较少。推荐NAS专用的主板，SATA等接口较多，虽然可以扩展，但不如原生。</li>
+<li>CPU：一般来说买英特尔较新代的i3即可，考虑到价格因素（CPU和主板的价格），8代及之后的都可以选择，性能上一般使用感知不强。注意不要买型号后缀带F的。</li>
+<li>电源：尽量选择大牌口碑好的，7×24小时运行更需要稳定性，而且它一旦坏了可能会带走你的硬盘。</li>
+<li>CPU散热器和内存随意。</li>
+</ol>
+<p>这一套下来，基本上作为家用服务器，完全不用担心性能。毕竟酷睿i3的性能已经领先赛扬系列几个级别，其他人能运行的服务这里都可以运行。</p>
+<h1 id="2017-2019：自组低功耗服务器"><a href="#2017-2019：自组低功耗服务器" class="headerlink" title="2017~2019：自组低功耗服务器"></a>2017~2019：自组低功耗服务器</h1><p>&#x2F;&#x2F; 占坑待补充。选择的是N3160主板集成CPU。</p>
+<h1 id="2014-2017：路由器挂载硬盘、笔记本电脑共享"><a href="#2014-2017：路由器挂载硬盘、笔记本电脑共享" class="headerlink" title="2014~2017：路由器挂载硬盘、笔记本电脑共享"></a>2014~2017：路由器挂载硬盘、笔记本电脑共享</h1><p>&#x2F;&#x2F; 占坑待补充。这段时间通过路由器挂载硬盘方式运行影音库服务，同时偶尔使用笔记本电脑给其他人共享资料，算是家用服务器的萌芽阶段。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag"># 运维</a>
+              <a href="/tags/HomeServer/" rel="tag"># HomeServer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/19/hello-world/" rel="prev" title="Hello World">
+                  <i class="fa fa-chevron-left"></i> Hello World
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sunweihan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
